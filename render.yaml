@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: boardgame-backend
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JAVA_VERSION
+        value: 17
