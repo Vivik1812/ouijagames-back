@@ -39,8 +39,8 @@ public class Producto {
     @Column(nullable = false)
     private Integer stock;
 
-    @ManyToOne
-    private Carrito carrito;
+    // @ManyToOne
+    // private Carrito carrito;
 
     @OneToMany
     @JoinTable(
