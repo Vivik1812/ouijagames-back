@@ -39,6 +39,9 @@ public class Producto {
     @Column(nullable = false)
     private Integer stock;
 
+    @Column(nullable = false)
+    private String img;
+
     // @ManyToOne
     // private Carrito carrito;
 
