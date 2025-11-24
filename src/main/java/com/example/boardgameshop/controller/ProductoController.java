@@ -1,6 +1,7 @@
 package com.example.boardgameshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.boardgameshop.model.Categoria;
 import com.example.boardgameshop.model.Producto;
+import com.example.boardgameshop.model.ProductRequest;
+import com.example.boardgameshop.repository.ProductoRepository;
 import com.example.boardgameshop.repository.CategoriaRepository;
 import com.example.boardgameshop.service.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,6 +30,7 @@ public class ProductoController {
 
     @Autowired
     private ProductoService productoService;
+    private ProductoRepository productoRepository;
     private CategoriaRepository categoriaRepository;
 
     @GetMapping
@@ -43,13 +47,21 @@ public class ProductoController {
 
     @PostMapping
     @Operation(summary = "Add a new product")
-    public Producto createProducto(@RequestBody Producto producto) {
-        Categoria categoria = categoriaRepository.findById(producto.getCategoria().getId())
-            .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+    public ResponseEntity<Producto> createProducto(@RequestBody ProductRequest request) {
+        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
 
+        Producto producto = new Producto();
+        producto.setName(request.getName());
+        producto.setDescription(request.getDescription());
+        producto.setPrice(request.getPrice().doubleValue());
+        producto.setStock(request.getStock());
+        producto.setImg(request.getImg());
         producto.setCategoria(categoria);
 
-        return productoService.saveProducto(producto);
+        Producto saved = productoRepository.save(producto);
+
+        return ResponseEntity.ok(saved);
     }
 
     @PutMapping("/{id}")
@@ -86,7 +98,7 @@ public class ProductoController {
             return productoService.saveProducto(existingProducto);
         }
         return null;
-    }   
+    }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a product")
