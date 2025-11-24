@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.boardgameshop.model.Categoria;
 import com.example.boardgameshop.model.Producto;
+import com.example.boardgameshop.repository.CategoriaRepository;
 import com.example.boardgameshop.service.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/products")
@@ -27,6 +27,7 @@ public class ProductoController {
 
     @Autowired
     private ProductoService productoService;
+    private CategoriaRepository categoriaRepository;
 
     @GetMapping
     @Operation(summary = "View a list of available products")
@@ -40,30 +41,16 @@ public class ProductoController {
         return productoService.getProductoById(id);
     }
 
-    // @PostMapping
-    // @Operation(summary = "Add a new product")
-    // public Producto createProducto(@RequestBody Producto producto) {
-    //     return productoService.saveProducto(producto);
-    // }
-
     @PostMapping
-@Operation(summary = "Add a new product")
-public Producto createProducto(@RequestBody Map<String, Object> request) {
-    Producto producto = new Producto();
-    producto.setName((String) request.get("name"));
-    producto.setDescription((String) request.get("description"));
-    producto.setPrice(((Number) request.get("price")).doubleValue());
-    producto.setStock(((Number) request.get("stock")).intValue());
-    producto.setImg((String) request.get("img"));
+    @Operation(summary = "Add a new product")
+    public Producto createProducto(@RequestBody Producto producto) {
+        Categoria categoria = categoriaRepository.findById(producto.getCategoria().getId())
+            .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
 
-    // Obtener la categoría
-    Long categoriaId = ((Number) ((Map<String, Object>) request.get("categoria")).get("id")).longValue();
-    Categoria categoria = new Categoria();
-    categoria.setId(categoriaId);
-    producto.setCategoria(categoria);
+        producto.setCategoria(categoria);
 
-    return productoService.saveProducto(producto);
-}
+        return productoService.saveProducto(producto);
+    }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing product")
