@@ -55,7 +55,7 @@ public class Producto {
 
     @ManyToOne
     @JoinColumn(
-        name = "categoria_id"
+        name = "categoriaId"
     )
     private Categoria categoria;
 }
