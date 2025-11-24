@@ -1,6 +1,7 @@
 package com.example.boardgameshop.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.boardgameshop.model.Categoria;
 import com.example.boardgameshop.model.Producto;
@@ -18,7 +20,7 @@ import com.example.boardgameshop.repository.ProductoRepository;
 import com.example.boardgameshop.repository.CategoriaRepository;
 import com.example.boardgameshop.service.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
@@ -50,13 +52,14 @@ public class ProductoController {
     @PostMapping
     @Operation(summary = "Add a new product")
     public ResponseEntity<Producto> createProducto(@RequestBody ProductRequest request) {
-        Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+         Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoría no encontrada"));
+
 
         Producto producto = new Producto();
         producto.setName(request.getName());
         producto.setDescription(request.getDescription());
-        producto.setPrice(request.getPrice().intValue());
+        producto.setPrice(request.getPrice());
         producto.setStock(request.getStock());
         producto.setImg(request.getImg());
         producto.setCategoria(categoria);
