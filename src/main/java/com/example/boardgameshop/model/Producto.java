@@ -24,16 +24,16 @@ import lombok.NoArgsConstructor;
 public class Producto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 100, nullable = false)
     private String name;
 
-    @Column(length = 1000, nullable = false)
+    @Column(length = 5000, nullable = false)
     private String description;
 
-    @Column(length = 100, nullable = false, unique = true)
+    @Column(nullable = false)
     private Double price;
 
     @Column(nullable = false)

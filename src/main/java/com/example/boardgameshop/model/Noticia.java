@@ -23,7 +23,7 @@ public class Noticia {
     
     @Column(length = 100, nullable = false)
     private String titulo;
-    @Column(length = 250, nullable = false)
+    @Column(length = 5000, nullable = false)
     private String texto;
     @Column(nullable = false)
     private String img;
