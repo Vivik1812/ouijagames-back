@@ -34,7 +34,7 @@ public class Producto {
     private String description;
 
     @Column(nullable = false)
-    private Double price;
+    private Integer price;
 
     @Column(nullable = false)
     private Integer stock;
@@ -45,13 +45,13 @@ public class Producto {
     // @ManyToOne
     // private Carrito carrito;
 
-    @OneToMany
-    @JoinTable(
-        name = "productos_resenias",
-        joinColumns = @JoinColumn(name = "producto_id"),
-        inverseJoinColumns = @JoinColumn(name = "resenia_id")
-    )
-    private List<Resenia> resenias;
+    // @OneToMany
+    // @JoinTable(
+    //     name = "productos_resenias",
+    //     joinColumns = @JoinColumn(name = "producto_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "resenia_id")
+    // )
+    // private List<Resenia> resenias;
 
     @ManyToOne
     @JoinColumn(

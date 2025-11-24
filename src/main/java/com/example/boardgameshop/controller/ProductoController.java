@@ -30,7 +30,9 @@ public class ProductoController {
 
     @Autowired
     private ProductoService productoService;
+    @Autowired
     private ProductoRepository productoRepository;
+    @Autowired
     private CategoriaRepository categoriaRepository;
 
     @GetMapping
@@ -54,7 +56,7 @@ public class ProductoController {
         Producto producto = new Producto();
         producto.setName(request.getName());
         producto.setDescription(request.getDescription());
-        producto.setPrice(request.getPrice().doubleValue());
+        producto.setPrice(request.getPrice().intValue());
         producto.setStock(request.getStock());
         producto.setImg(request.getImg());
         producto.setCategoria(categoria);

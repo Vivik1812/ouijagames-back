@@ -1,6 +1,5 @@
 package com.example.boardgameshop.model;
 
-import java.math.BigDecimal;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +9,7 @@ import lombok.Setter;
 public class ProductRequest {
     private String name;
     private String description;
-    private BigDecimal price;
+    private Integer price;
     private Integer stock;
     private String img;
     private Long categoriaId;
