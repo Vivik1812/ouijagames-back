@@ -54,5 +54,8 @@ public class Producto {
     private List<Resenia> resenias;
 
     @ManyToOne
+    @JoinColumn(
+        name = "categoria_id"
+    )
     private Categoria categoria;
 }
