@@ -3,6 +3,7 @@ package com.example.boardgameshop.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,7 +36,6 @@ public class Usuario {
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-
     @Column(nullable = false, length = 100)
     private String password;
 
